@@ -1,8 +1,8 @@
 {
-  "name": "DANUWA-MD",
-  "description": "Javascript WhatsApp bot made by Danuka Dissanayake",
-  "logo": "https://github.com/DANUWA-MD/DANUWA-MD/blob/main/images/DANUWA-MD.png?raw=true",
-  "keywords": ["DANUWA-MD"],
+  "name": "𝐍𝐞𝐱𝐭𝐆𝐞𝐧-𝐌𝐃",
+  "description": "𝙅𝙖𝙫𝙖𝙨𝙘𝙧𝙞𝙥𝙩 𝙒𝙝𝙖𝙩𝙨𝘼𝙥𝙥 𝙗𝙤𝙩 𝙢𝙖𝙙𝙚 𝙗𝙮 𝙉𝙓",
+  "logo": "https://github.com/nazimhihoo/NextGen-XMD/blob/main/images/NextGen-MD.png",
+  "keywords": ["𝐍𝐞𝐱𝐭𝐆𝐞𝐧-𝐌𝐃"],
   "success_url": "/",
 
   "env": {
