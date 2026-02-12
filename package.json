@@ -1,12 +1,12 @@
 {
-  "name": "DANUWA-MD",
-  "version": "1.0.0",
-  "description": "A Powerfull Whatsapp Bot",
+  "name": "𝐍𝐞𝐱𝐭𝐆𝐞𝐧-𝐌𝐃",
+  "version": "1.0",
+  "description": "𝔸 ℙ𝕠𝕨𝕖𝕣𝕗𝕦𝕝𝕝 𝕎𝕙𝕒𝕥𝕤𝕒𝕡𝕡 𝔹𝕠𝕥 𝕞𝕒𝕕𝕖 𝕨𝕚𝕥𝕙 💖 𝔹𝕪 𝕊𝕚𝕝𝕖𝕟𝕥 𝔹𝕠𝕪",
   "main": "index.js",
   "scripts": {
-    "start": "pm2 start index.js --deep-monitoring --attach --name DANUWA-MD",
-    "stop": "pm2 stop DANUWA-MD",
-    "restart": "pm2 restart DANUWA-MD"
+    "start": "pm2 start index.js --deep-monitoring --attach --name 𝐍𝐞𝐱𝐭𝐆𝐞𝐧-𝐌𝐃",
+    "stop": "pm2 stop 𝐍𝐞𝐱𝐭𝐆𝐞𝐧-𝐌𝐃",
+    "restart": "pm2 restart 𝐍𝐞𝐱𝐭𝐆𝐞𝐧-𝐌𝐃"
   },
   "dependencies": {
     "@whiskeysockets/baileys": "^6.7.16",
