@@ -4,14 +4,14 @@ const getFbVideoInfo = require("@xaviabot/fb-downloader");
 cmd(
   {
     pattern: "fb",
-    alias: ["facebook"],
+    alias: ["facebook", "fbdownload", "fbd"],
     react: "✅",
-    desc: "Download Facebook Video",
+    desc: "> Dₒwₙₗₒₐd Fₐcₑbₒₒₖ ᵥᵢdₑₒ",
     category: "download",
     filename: __filename,
   },
   async (
-    danuwa,
+    NazimX,
     mek,
     m,
     {
@@ -40,17 +40,17 @@ cmd(
     }
   ) => {
     try {
-      if (!q) return reply("*Please provide a valid Facebook video URL!* ❤️");
+      if (!q) return reply("> *​🇵​​🇱​​🇪​​🇦​​🇸​​🇪​ ​🇵​​🇷​​🇴​​🇻​​🇮​​🇩​​🇪​ ​🇦​ ​🇻​​🇦​​🇱​​🇮​​🇩​ ​🇫​​🇦​​🇨​​🇪​​🇧​​🇴​​🇴​​🇰​ ​🇻​​🇮​​🇩​​🇪​​🇴​ ​🇺​​🇷​​🇱​❗* ❤️");
 
       const fbRegex = /(https?:\/\/)?(www\.)?(facebook|fb)\.com\/.+/;
       if (!fbRegex.test(q))
-        return reply("*Invalid Facebook URL! Please check and try again.* ☹️");
+        return reply("> *𝕀𝕟𝕧𝕒𝕝𝕚𝕕 𝔽𝕒𝕔𝕖𝕓𝕠𝕠𝕜 𝕌ℝ𝕃! ℙ𝕝𝕖𝕒𝕤𝕖 𝕔𝕙𝕖𝕔𝕜 𝕒𝕟𝕕 𝕥𝕣𝕪 𝕒𝕘𝕒𝕚𝕟.* ☹️");
 
-      reply("*Downloading your video...* ❤️");
+      reply("> *𝘿𝙤𝙬𝙣𝙡𝙤𝙖𝙙𝙞𝙣𝙜 𝙮𝙤𝙪𝙧 𝙫𝙞𝙙𝙚𝙤...* ❤️");
 
       const result = await getFbVideoInfo(q);
       if (!result || (!result.sd && !result.hd)) {
-        return reply("*Failed to download video. Please try again later.* ☹️");
+        return reply("> *𝙁𝙖𝙞𝙡𝙚𝙙 𝙩𝙤 𝙙𝙤𝙬𝙣𝙡𝙤𝙖𝙙 𝙫𝙞𝙙𝙚𝙤. 𝙋𝙡𝙚𝙖𝙨𝙚 𝙩𝙧𝙮 𝙖𝙜𝙖𝙞𝙣 𝙡𝙖𝙩𝙚𝙧.* ☹️");
       }
 
       const { title, sd, hd } = result;
@@ -58,32 +58,32 @@ cmd(
       const qualityText = hd ? "HD" : "SD";
 
       const desc = `
-Your fb video
+*Y̳o̳u̳r̳ ̳f̳b̳ ̳v̳i̳d̳e̳o̳*
 👻 *Title*: ${title || "Unknown"}
 👻 *Quality*: ${qualityText}
 `;
 
-      await danuwa.sendMessage(
+      await NazimX.sendMessage(
         from,
         {
           image: {
-            url: "https://github.com/DANUWA-MD/DANUWA-MD/blob/main/images/fbdownloader.png?raw=true",
+            url: "https://github.com/nazimhihoo/NextGen-XMD/blob/main/images/NextGen-MD.png",
           },
           caption: desc,
         },
         { quoted: mek }
       );
 
-      await danuwa.sendMessage(
+      await NazimX.sendMessage(
         from,
         {
           video: { url: bestQualityUrl },
-          caption: `*📥 Downloaded in ${qualityText} quality*`,
+          caption: `*📥 Downloaded ${qualityText} quality*`,
         },
         { quoted: mek }
       );
 
-      return reply("Thank you for using DANUWA-MD");
+      return reply("𝗧𝗵𝗮𝗻𝗸 𝘆𝗼𝘂 𝗳𝗼𝗿 𝘂𝘀𝗶𝗻𝗴 𝗡𝗲𝘅𝘁𝗚𝗲𝗻-𝗫𝗠𝗗");
     } catch (e) {
       console.error(e);
       reply(`*Error:* ${e.message || e}`);
