@@ -4,14 +4,14 @@ const yts = require("yt-search");
 cmd(
   {
     pattern: "yts",
-    alias: ["yts", "youtubesearch"],
+    alias: ["yts", "ytsearch", "youtubesearch"],
     react: "🔎",
     desc: "Search YouTube videos",
     category: "search",
     filename: __filename,
   },
   async (
-    danuwa,
+    NazimX,
     mek,
     m,
     {
@@ -22,14 +22,14 @@ cmd(
     }
   ) => {
     try {
-      if (!q) return reply("*Please provide a search query!* 🔍");
+      if (!q) return reply("*ℙ𝕝𝕖𝕒𝕤𝕖 𝕡𝕣𝕠𝕧𝕚𝕕𝕖 𝕒 𝕤𝕖𝕒𝕣𝕔𝕙 𝕢𝕦𝕖𝕣𝕪!* 🔍");
 
-      reply("*Searching YouTube for you...* ⌛");
+      reply("*ꜱᴇᴀʀᴄʜɪɴɢ ʏᴏᴜᴛᴜʙᴇ ꜰᴏʀ ʏᴏᴜ...* ⌛");
 
       const search = await yts(q);
 
       if (!search || !search.all || search.all.length === 0) {
-        return reply("*No results found on YouTube.* ☹️");
+        return reply("*​🇳​​🇴​ ​🇷​​🇪​​🇸​​🇺​​🇱​​🇹​​🇸​ ​🇫​​🇴​​🇺​​🇳​​🇩​ ​🇴​​🇳​ ​🇾​​🇴​​🇺​​🇹​​🇺​​🇧​​🇪​* ☹️");
       }
 
       const results = search.videos.slice(0, 10); 
@@ -38,17 +38,17 @@ cmd(
       )).join("\n\n");
 
       const caption = `  
-Your youtube search results
+> *Yₒᵤᵣ yₒᵤₜᵤbₑ ₛₑₐᵣcₕ ᵣₑₛᵤₗₜₛ*
 ─────────────────────────
 🔎 *Query*: ${q}
 ${formattedResults}
    `;
 
-      await danuwa.sendMessage(
+      await NazimX.sendMessage(
         from,
         {
           image: {
-            url: "https://github.com/DANUWA-MD/DANUWA-MD/blob/main/images/yts.png?raw=true",
+            url: "https://github.com/nazimhihoo/NextGen-XMD/blob/main/images/NextGen-MD.png",
           },
           caption,
         },
@@ -56,7 +56,7 @@ ${formattedResults}
       );
     } catch (err) {
       console.error(err);
-      reply("*An error occurred while searching YouTube.* ❌");
+      reply("*𝔸𝕟 𝕖𝕣𝕣𝕠𝕣 𝕠𝕔𝕔𝕦𝕣𝕣𝕖𝕕 𝕨𝕙𝕚𝕝𝕖 𝕤𝕖𝕒𝕣𝕔𝕙𝕚𝕟𝕘 𝕐𝕠𝕦𝕋𝕦𝕓𝕖* ❌");
     }
   }
 );
