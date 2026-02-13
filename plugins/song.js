@@ -1,4 +1,4 @@
-const { cmd, commands } = require("../command");
+const { cmd } = require("../command");
 const yts = require("yt-search");
 const { ytmp3 } = require("@vreden/youtube_scraper");
 
@@ -6,58 +6,48 @@ cmd(
   {
     pattern: "song",
     react: "🎶",
-    desc: "Download Song",
+    desc: "> Dₒwₙₗₒₐd ₛₒₙg fᵣₒₘ Yₒᵤₜᵤbₑ",
     category: "download",
     filename: __filename,
   },
   async (
-    danuwa,
+    NazimX,
     mek,
     m,
     {
       from,
-      quoted,
-      body,
-      isCmd,
-      command,
-      args,
       q,
-      isGroup,
-      sender,
-      senderNumber,
-      botNumber2,
-      botNumber,
-      pushname,
-      isMe,
-      isOwner,
-      groupMetadata,
-      groupName,
-      participants,
-      groupAdmins,
-      isBotAdmins,
-      isAdmins,
       reply,
     }
   ) => {
     try {
-      if (!q) return reply("❌ *Please provide a song name or YouTube link*");
+      if (!q) return reply("> ❌ ℙ𝕝𝕖𝕒𝕤𝕖 𝕡𝕣𝕠𝕧𝕚𝕕𝕖 𝕒 𝕤𝕠𝕟𝕘 𝕟𝕒𝕞𝕖 𝕠𝕣 𝕐𝕠𝕦𝕋𝕦𝕓𝕖 𝕝𝕚𝕟𝕜!");
+
+      reply("> ⏳ ꜱᴇᴀʀᴄʜɪɴɢ ꜰᴏʀ ʏᴏᴜʀ ꜱᴏɴɢ... ʜᴀɴɢ ᴛɪɢʜᴛ!");
 
       const search = await yts(q);
+      if (!search.videos || search.videos.length === 0) {
+        return reply("> ❌ 𝗡𝗼 𝗿𝗲𝘀𝘂𝗹𝘁𝘀 𝗳𝗼𝘂𝗻𝗱 𝗼𝗻 𝗬𝗼𝘂𝗧𝘂𝗯𝗲!");
+      }
+
       const data = search.videos[0];
       const url = data.url;
 
-      let desc = `
-Song downloader
+      const caption = `
+🎵 *SONG DOWNLOAD*
+─────────────────────────
 🎬 *Title:* ${data.title}
 ⏱️ *Duration:* ${data.timestamp}
 📅 *Uploaded:* ${data.ago}
 👀 *Views:* ${data.views.toLocaleString()}
-🔗 *Watch Here:* ${data.url}
+🔗 *Watch on YouTube:* ${data.url}
+─────────────────────────
+> ⬇️ ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ɪɴ 192ᴋʙᴘꜱ... ᴘʟᴇᴀꜱᴇ ᴡᴀɪᴛ...
 `;
 
-      await danuwa.sendMessage(
+      await NazimX.sendMessage(
         from,
-        { image: { url: data.thumbnail }, caption: desc },
+        { image: { url: data.thumbnail }, caption },
         { quoted: mek }
       );
 
@@ -71,10 +61,10 @@ Song downloader
           : durationParts[0] * 60 + durationParts[1];
 
       if (totalSeconds > 1800) {
-        return reply("⏳ *Sorry, audio files longer than 30 minutes are not supported.*");
+        return reply("> ⏳ ꜱᴏʀʀʏ! ᴀᴜᴅɪᴏ ꜰɪʟᴇꜱ ʟᴏɴɢᴇʀ ᴛʜᴀɴ 30 ᴍɪɴᴜᴛᴇꜱ ᴀʀᴇ ɴᴏᴛ ꜱᴜᴘᴘᴏʀᴛᴇᴅ");
       }
 
-      await danuwa.sendMessage(
+      await NazimX.sendMessage(
         from,
         {
           audio: { url: songData.download.url },
@@ -83,21 +73,21 @@ Song downloader
         { quoted: mek }
       );
 
-      await danuwa.sendMessage(
+      await NazimX.sendMessage(
         from,
         {
           document: { url: songData.download.url },
           mimetype: "audio/mpeg",
           fileName: `${data.title}.mp3`,
-          caption: "🎶 *Your song is ready to be played!*",
+          caption: "> ✅ ​🇾​​🇴​​🇺​​🇷​ ​🇸​​🇴​​🇳​​🇬​ ​🇮​​🇸​ ​🇷​​🇪​​🇦​​🇩​​🇾​ ​🇹​​🇴​ ​🇵​​🇱​​🇦​​🇾​❗ ​🇪​​🇳​​🇯​​🇴​​🇾​ 🎶",
         },
         { quoted: mek }
       );
 
-      return reply("✅ Thank you");
+      return reply("> ✅ Song download completed successfully❗");
     } catch (e) {
       console.log(e);
-      reply(`❌ *Error:* ${e.message} 😞`);
+      reply("> ❌ ​🇸​​🇴​​🇲​​🇪​​🇹​​🇭​​🇮​​🇳​​🇬​ ​🇼​​🇪​​🇳​​🇹​ ​🇼​​🇷​​🇴​​🇳​​🇬​ ​🇼​​🇭​​🇮​​🇱​​🇪​ ​🇩​​🇴​​🇼​​🇳​​🇱​​🇴​​🇦​​🇩​​🇮​​🇳​​🇬​ ​🇹​​🇭​​🇪​ ​🇸​​🇴​​🇳​​🇬​❗");
     }
   }
 );
