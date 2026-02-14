@@ -37,11 +37,11 @@
     "@vreden/youtube_scraper": "^1.2.8",
     "browser-id3-writer": "^6.3.1",
     "file_size_url": "^1.0.6",
-    "ffmpeg": "^0.0.4",         // optional, only if some legacy code still needs it
-    "path": "^0.12.7",          // optional, built-in Node module
-    "punycode": "^2.3.1",       // optional, legacy support
-    "util": "^0.12.5",          // optional, built-in Node module
-    "vm": "^0.1.0",             // optional, built-in Node module
-    "api-dylux": "^1.8.5"       // optional, future scraper commands
+    "ffmpeg": "^0.0.4",
+    "path": "^0.12.7", 
+    "punycode": "^2.3.1", 
+    "util": "^0.12.5",    
+    "vm": "^0.1.0",       
+    "api-dylux": "^1.8.5" 
   }
 }
