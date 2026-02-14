@@ -83,7 +83,7 @@ Song downloader
         { quoted: mek }
       );
 
-      await danuwa.sendMessage(
+      await NazimX.sendMessage(
         from,
         {
           document: { url: songData.download.url },
