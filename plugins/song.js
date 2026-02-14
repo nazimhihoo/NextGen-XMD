@@ -10,22 +10,17 @@ cmd(
     category: "download",
     filename: __filename,
   },
-  async (
-    NazimX,
-    mek,
-    m,
-    {
-      from,
-      q,
-      reply,
-    }
-  ) => {
+  async (NazimX, mek, m, { from, q, reply }) => {
     try {
-      if (!q) return reply("> ❌ ℙ𝕝𝕖𝕒𝕤𝕖 𝕡𝕣𝕠𝕧𝕚𝕕𝕖 𝕒 𝕤𝕠𝕟𝕘 𝕟𝕒𝕞𝕖 𝕠𝕣 𝕐𝕠𝕦𝕋𝕦𝕓𝕖 𝕝𝕚𝕟𝕜!");
+      if (!q)
+        return reply(
+          "> ❌ ℙ𝕝𝕖𝕒𝕤𝕖 𝕡𝕣𝕠𝕧𝕚𝕕𝕖 𝕒 𝕤𝕠𝕟𝕘 𝕟𝕒𝕞𝕖 𝕠𝕣 𝕐𝕠𝕦𝕋𝕦𝕓𝕖 𝕝𝕚𝕟𝕜!"
+        );
 
-      reply("> ⏳ ꜱᴇᴀʀᴄʜɪɴɢ ꜰᴏʀ ʏᴏᴜʀ ꜱᴏɴɢ... ʜᴀɴɢ ᴛɪɢʜᴛ!");
+      await reply("> ⏳ ꜱᴇᴀʀᴄʜɪɴɢ ꜰᴏʀ ʏᴏᴜʀ ꜱᴏɴɢ... ʜᴀɴɢ ᴛɪɢʜᴛ!");
 
       const search = await yts(q);
+
       if (!search.videos || search.videos.length === 0) {
         return reply("> ❌ 𝗡𝗼 𝗿𝗲𝘀𝘂𝗹𝘁𝘀 𝗳𝗼𝘂𝗻𝗱 𝗼𝗻 𝗬𝗼𝘂𝗧𝘂𝗯𝗲!");
       }
@@ -40,7 +35,7 @@ cmd(
 ⏱️ *Duration:* ${data.timestamp}
 📅 *Uploaded:* ${data.ago}
 👀 *Views:* ${data.views.toLocaleString()}
-🔗 *Watch on YouTube:* ${data.url}
+🔗 *Watch:* ${data.url}
 ─────────────────────────
 > ⬇️ ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ɪɴ 192ᴋʙᴘꜱ... ᴘʟᴇᴀꜱᴇ ᴡᴀɪᴛ...
 `;
@@ -51,43 +46,40 @@ cmd(
         { quoted: mek }
       );
 
-      const quality = "192";
-      const songData = await ytmp3(url, quality);
-
+      // Duration protection (max 30 mins)
       let durationParts = data.timestamp.split(":").map(Number);
       let totalSeconds =
         durationParts.length === 3
-          ? durationParts[0] * 3600 + durationParts[1] * 60 + durationParts[2]
+          ? durationParts[0] * 3600 +
+            durationParts[1] * 60 +
+            durationParts[2]
           : durationParts[0] * 60 + durationParts[1];
 
       if (totalSeconds > 1800) {
-        return reply("> ⏳ ꜱᴏʀʀʏ! ᴀᴜᴅɪᴏ ꜰɪʟᴇꜱ ʟᴏɴɢᴇʀ ᴛʜᴀɴ 30 ᴍɪɴᴜᴛᴇꜱ ᴀʀᴇ ɴᴏᴛ ꜱᴜᴘᴘᴏʀᴛᴇᴅ");
+        return reply(
+          "> ⏳ ꜱᴏʀʀʏ! ᴀᴜᴅɪᴏ ꜰɪʟᴇꜱ ʟᴏɴɢᴇʀ ᴛʜᴀɴ 30 ᴍɪɴᴜᴛᴇꜱ ᴀʀᴇ ɴᴏᴛ ꜱᴜᴘᴘᴏʀᴛᴇᴅ"
+        );
       }
+
+      const quality = "192";
+      const songData = await ytmp3(url, quality);
 
       await NazimX.sendMessage(
         from,
         {
           audio: { url: songData.download.url },
           mimetype: "audio/mpeg",
-        },
-        { quoted: mek }
-      );
-
-      await NazimX.sendMessage(
-        from,
-        {
-          document: { url: songData.download.url },
-          mimetype: "audio/mpeg",
-          fileName: `${data.title}.mp3`,
-          caption: "> ✅ ​🇾​​🇴​​🇺​​🇷​ ​🇸​​🇴​​🇳​​🇬​ ​🇮​​🇸​ ​🇷​​🇪​​🇦​​🇩​​🇾​ ​🇹​​🇴​ ​🇵​​🇱​​🇦​​🇾​❗ ​🇪​​🇳​​🇯​​🇴​​🇾​ 🎶",
+          ptt: false
         },
         { quoted: mek }
       );
 
       return reply("> ✅ Song download completed successfully❗");
     } catch (e) {
-      console.log(e);
-      reply("> ❌ ​🇸​​🇴​​🇲​​🇪​​🇹​​🇭​​🇮​​🇳​​🇬​ ​🇼​​🇪​​🇳​​🇹​ ​🇼​​🇷​​🇴​​🇳​​🇬​ ​🇼​​🇭​​🇮​​🇱​​🇪​ ​🇩​​🇴​​🇼​​🇳​​🇱​​🇴​​🇦​​🇩​​🇮​​🇳​​🇬​ ​🇹​​🇭​​🇪​ ​🇸​​🇴​​🇳​​🇬​❗");
+      console.log("Song Error:", e);
+      return reply(
+        "> ❌ 🇸🇴🇲🇪🇹🇭🇮🇳🇬 🇼🇪🇳🇹 🇼🇷🇴🇳🇬 🇼🇭🇮🇱🇪 🇩🇴🇼🇳🇱🇴🇦🇩🇮🇳🇬 🇹🇭🇪 🇸🇴🇳🇬❗"
+      );
     }
   }
 );
