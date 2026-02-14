@@ -1,12 +1,12 @@
 const { cmd, commands } = require("../command");
 const yts = require("yt-search");
-const { ytmp3 } = require("@vreden/youtube_scraper");
+const ytdl = require("ytdl-core");
 
 cmd(
   {
     pattern: "song",
     react: "🎶",
-    desc: "Download Youtube Song",
+    desc: "Download YouTube Song",
     category: "download",
     filename: __filename,
   },
@@ -22,32 +22,19 @@ cmd(
       command,
       args,
       q,
-      isGroup,
-      sender,
-      senderNumber,
-      botNumber2,
-      botNumber,
-      pushname,
-      isMe,
-      isOwner,
-      groupMetadata,
-      groupName,
-      participants,
-      groupAdmins,
-      isBotAdmins,
-      isAdmins,
       reply,
     }
   ) => {
     try {
       if (!q) return reply("❌ *Please provide a song name or YouTube link*");
 
+      // 1️⃣ Search YouTube
       const search = await yts(q);
       const data = search.videos[0];
-      const url = data.url;
+      if (!data) return reply("❌ *No results found for this query*");
 
-      let desc = `
-Song downloader
+      // Song metadata
+      const desc = `
 🎬 *Title:* ${data.title}
 ⏱️ *Duration:* ${data.timestamp}
 📅 *Uploaded:* ${data.ago}
@@ -55,48 +42,56 @@ Song downloader
 🔗 *Watch Here:* ${data.url}
 `;
 
+      // Send metadata + thumbnail
       await NazimX.sendMessage(
         from,
         { image: { url: data.thumbnail }, caption: desc },
         { quoted: mek }
       );
 
-      const quality = "192";
-      const songData = await ytmp3(url, quality);
-
-      let durationParts = data.timestamp.split(":").map(Number);
-      let totalSeconds =
+      // Duration check (max 30 min)
+      const durationParts = data.timestamp.split(":").map(Number);
+      const totalSeconds =
         durationParts.length === 3
           ? durationParts[0] * 3600 + durationParts[1] * 60 + durationParts[2]
           : durationParts[0] * 60 + durationParts[1];
 
       if (totalSeconds > 1800) {
-        return reply("⏳ *Sorry, audio files longer than 30 minutes are not supported.*");
+        return reply(
+          "⏳ *Sorry, audio files longer than 30 minutes are not supported.*"
+        );
       }
 
+      // 2️⃣ Download audio using ytdl-core
+      const info = await ytdl.getInfo(data.url);
+      const format = ytdl.chooseFormat(info.formats, { quality: "highestaudio" });
+      if (!format?.url) return reply("❌ *Unable to fetch audio*");
+
+      // 3️⃣ Send audio file
       await NazimX.sendMessage(
         from,
         {
-          audio: { url: songData.download.url },
+          audio: { url: format.url },
           mimetype: "audio/mpeg",
         },
         { quoted: mek }
       );
 
+      // 4️⃣ Optional: Send as document (MP3)
       await NazimX.sendMessage(
         from,
         {
-          document: { url: songData.download.url },
+          document: { url: format.url },
           mimetype: "audio/mpeg",
           fileName: `${data.title}.mp3`,
-          caption: "🎶 *Your song is ready to be played!*",
+          caption: "🎶 *Your song is ready!*",
         },
         { quoted: mek }
       );
 
-      return reply("✅ Thank you");
+      return reply("✅ Song delivered successfully!");
     } catch (e) {
-      console.log(e);
+      console.log("SONG COMMAND ERROR:", e);
       reply(`❌ *Error:* ${e.message} 😞`);
     }
   }
