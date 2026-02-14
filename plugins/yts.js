@@ -6,7 +6,7 @@ cmd(
     pattern: "yts",
     alias: ["yts", "ytsearch", "youtubesearch"],
     react: "🔎",
-    desc: "Search YouTube videos",
+    desc: "_*Search YouTube videos*_",
     category: "search",
     filename: __filename,
   },
@@ -22,23 +22,23 @@ cmd(
     }
   ) => {
     try {
-      if (!q) return reply("*ℙ𝕝𝕖𝕒𝕤𝕖 𝕡𝕣𝕠𝕧𝕚𝕕𝕖 𝕒 𝕤𝕖𝕒𝕣𝕔𝕙 𝕢𝕦𝕖𝕣𝕪!* 🔍");
+      if (!q) return reply("> *ℙ𝕝𝕖𝕒𝕤𝕖 𝕡𝕣𝕠𝕧𝕚𝕕𝕖 𝕒 𝕤𝕖𝕒𝕣𝕔𝕙 𝕢𝕦𝕖𝕣𝕪!* 🔍");
 
-      reply("*ꜱᴇᴀʀᴄʜɪɴɢ ʏᴏᴜᴛᴜʙᴇ ꜰᴏʀ ʏᴏᴜ...* ⌛");
+      reply("> *ꜱᴇᴀʀᴄʜɪɴɢ ʏᴏᴜᴛᴜʙᴇ ꜰᴏʀ ʏᴏᴜ...* ⏳");
 
       const search = await yts(q);
 
       if (!search || !search.all || search.all.length === 0) {
-        return reply("*​🇳​​🇴​ ​🇷​​🇪​​🇸​​🇺​​🇱​​🇹​​🇸​ ​🇫​​🇴​​🇺​​🇳​​🇩​ ​🇴​​🇳​ ​🇾​​🇴​​🇺​​🇹​​🇺​​🇧​​🇪​* ☹️");
+        return reply("> `*​🇳​​🇴​ ​🇷​​🇪​​🇸​​🇺​​🇱​​🇹​​🇸​ ​🇫​​🇴​​🇺​​🇳​​🇩​ ​🇴​​🇳​ ​🇾​​🇴​​🇺​​🇹​​🇺​​🇧​​🇪​*` 😒");
       }
 
       const results = search.videos.slice(0, 5); 
       let formattedResults = results.map((v, i) => (
-        `🎬 *${i + 1}. ${v.title}*\n📅 ${v.ago} | ⌛ ${v.timestamp} | 👁️ ${v.views.toLocaleString()} views\n🔗 ${v.url}`
+        `📽️ *${i + 1}. ${v.title}*\n🪩 ${v.ago} | ⏳ ${v.timestamp} | 👀 ${v.views.toLocaleString()} views\n🖇️ ${v.url}`
       )).join("\n\n");
 
       const caption = `  
-> *Yₒᵤᵣ yₒᵤₜᵤbₑ ₛₑₐᵣcₕ ᵣₑₛᵤₗₜₛ*
+> _*Yₒᵤᵣ yₒᵤₜᵤbₑ ₛₑₐᵣcₕ ᵣₑₛᵤₗₜₛ*_
 ─────────────────────────
 🔎 *Query*: ${q}
 ${formattedResults}
@@ -48,7 +48,7 @@ ${formattedResults}
         from,
         {
           image: {
-            url: "https://github.com/nazimhihoo/NextGen-XMD/blob/main/images/NextGen-MD.png",
+            url: "https://raw.githubusercontent.com/nazimhihoo/NextGen-XMD/refs/heads/main/images/NextGen-MD.png",
           },
           caption,
         },
@@ -56,7 +56,7 @@ ${formattedResults}
       );
     } catch (err) {
       console.error(err);
-      reply("*𝔸𝕟 𝕖𝕣𝕣𝕠𝕣 𝕠𝕔𝕔𝕦𝕣𝕣𝕖𝕕 𝕨𝕙𝕚𝕝𝕖 𝕤𝕖𝕒𝕣𝕔𝕙𝕚𝕟𝕘 𝕐𝕠𝕦𝕋𝕦𝕓𝕖* ❌");
+      reply("> `*𝔸𝕟 𝕖𝕣𝕣𝕠𝕣 𝕠𝕔𝕔𝕦𝕣𝕣𝕖𝕕 𝕨𝕙𝕚𝕝𝕖 𝕤𝕖𝕒𝕣𝕔𝕙𝕚𝕟𝕘 𝕐𝕠𝕦𝕋𝕦𝕓𝕖*` ✖️");
     }
   }
 );
