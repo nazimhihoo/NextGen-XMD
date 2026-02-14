@@ -6,80 +6,72 @@ cmd(
   {
     pattern: "song",
     react: "🎶",
-    desc: "> Dₒwₙₗₒₐd ₛₒₙg fᵣₒₘ Yₒᵤₜᵤbₑ",
+    desc: "Download songs from YouTube",
     category: "download",
     filename: __filename,
   },
   async (NazimX, mek, m, { from, q, reply }) => {
     try {
-      if (!q)
-        return reply(
-          "> ❌ ℙ𝕝𝕖𝕒𝕤𝕖 𝕡𝕣𝕠𝕧𝕚𝕕𝕖 𝕒 𝕤𝕠𝕟𝕘 𝕟𝕒𝕞𝕖 𝕠𝕣 𝕐𝕠𝕦𝕋𝕦𝕓𝕖 𝕝𝕚𝕟𝕜!"
-        );
+      if (!q) return reply("❌ Provide a song name or YouTube link.");
 
-      await reply("> ⏳ ꜱᴇᴀʀᴄʜɪɴɢ ꜰᴏʀ ʏᴏᴜʀ ꜱᴏɴɢ... ʜᴀɴɢ ᴛɪɢʜᴛ!");
-
+      // 🔎 Search
       const search = await yts(q);
-
-      if (!search.videos || search.videos.length === 0) {
-        return reply("> `❌ 𝗡𝗼 𝗿𝗲𝘀𝘂𝗹𝘁𝘀 𝗳𝗼𝘂𝗻𝗱 𝗼𝗻 𝗬𝗼𝘂𝗧𝘂𝗯𝗲!`");
-      }
+      if (!search?.videos?.length)
+        return reply("❌ No results found.");
 
       const data = search.videos[0];
+
+      // ⏳ Duration Protection
+      if (!data.seconds)
+        return reply("❌ Unable to verify video duration.");
+
+      if (data.seconds > 1800)
+        return reply("⏳ Files longer than 30 minutes are not supported.");
+
       const url = data.url;
 
-      const caption = `
-🎵 *ᗪOᗯᑎᒪOᗩᗪIᑎG ᔕOᑎG !*
-─────────────────────────
-📽️ *Title:* ${data.title}
-⏰ *Duration:* ${data.timestamp}
-🪩 *Uploaded:* ${data.ago}
-👀 *Views:* ${data.views.toLocaleString()}
-🖇️ *Watch:* ${data.url}
-─────────────────────────
-> ⬇️ *ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ɪɴ 192ᴋʙᴘꜱ...*  *ᴘʟᴇᴀꜱᴇ ᴡᴀɪᴛ...*
-`;
+      // 🔥 Parallel Fetch (Audio + Thumbnail)
+      const [songData, thumb] = await Promise.all([
+        ytmp3(url, "192").catch(() => null),
+        NazimX.getFile(data.thumbnail).catch(() => null),
+      ]);
 
-      await NazimX.sendMessage(
-        from,
-        { image: { url: data.thumbnail }, caption },
-        { quoted: mek }
-      );
+      if (!songData?.download?.url)
+        return reply("❌ Failed to fetch audio.");
 
-      // Duration protection (max 30 mins)
-      let durationParts = data.timestamp.split(":").map(Number);
-      let totalSeconds =
-        durationParts.length === 3
-          ? durationParts[0] * 3600 +
-            durationParts[1] * 60 +
-            durationParts[2]
-          : durationParts[0] * 60 + durationParts[1];
+      // 🧼 Sanitize filename
+      const safeTitle = data.title.replace(/[\\/:*?"<>|]/g, "").slice(0, 60);
 
-      if (totalSeconds > 1800) {
-        return reply(
-          "> `⏳ ꜱᴏʀʀʏ! ᴀᴜᴅɪᴏ ꜰɪʟᴇꜱ ʟᴏɴɢᴇʀ ᴛʜᴀɴ 30 ᴍɪɴᴜᴛᴇꜱ ᴀʀᴇ ɴᴏᴛ ꜱᴜᴘᴘᴏʀᴛᴇᴅ`"
-        );
-      }
-
-      const quality = "192";
-      const songData = await ytmp3(url, quality);
-
+      // 🎵 Send Audio Directly (No Extra Messages)
       await NazimX.sendMessage(
         from,
         {
           audio: { url: songData.download.url },
           mimetype: "audio/mpeg",
-          ptt: false
+          fileName: `${safeTitle}.mp3`,
+          ptt: false,
+          contextInfo: {
+            externalAdReply: {
+              title: data.title,
+              body: "NextGen-XMD • By Decent-Nazim",
+              thumbnail: thumb?.data || null,
+              sourceUrl: url,
+              mediaType: 1,
+              showAdAttribution: false,
+            },
+          },
         },
         { quoted: mek }
       );
 
-      return reply("> ✓𝚂𝚘𝚗𝚐 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍𝚎𝚍 | `© 𝙽𝚎𝚡𝚝𝙶𝚎𝚗-𝚇𝙼𝙳`🫴");
-    } catch (e) {
-      console.log("Song Error:", e);
-      return reply(
-        "> ❌ ꜰᴀɪʟᴇᴅ ᴛᴏ ꜰᴇᴛᴄʜ ᴅᴏᴡɴʟᴏᴀᴅ ʟɪɴᴋ. ᴛʀʏ ᴀɴᴏᴛʜᴇʀ ꜱᴏɴɢ❗"
-      );
+      // ✅ Success Reaction
+      await NazimX.sendMessage(from, {
+        react: { text: "✅", key: mek.key },
+      });
+
+    } catch (err) {
+      console.error("Song Command Error:", err);
+      return reply("❌ Error processing request");
     }
   }
 );
