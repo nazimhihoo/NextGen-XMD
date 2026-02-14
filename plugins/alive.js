@@ -15,7 +15,7 @@ async (NazimX, mek, m, {
 }) => {
     try {
         return await NazimX.sendMessage(from, {
-            image: { url: config.ALIVE_IMG || "https://github.com/nazimhihoo/NextGen-XMD/blob/main/images/NextGen-MD.png" },
+            image: { url: config.ALIVE_IMG || "https://raw.githubusercontent.com/nazimhihoo/NextGen-XMD/refs/heads/main/images/NextGen-MD.png" },
             caption: config.ALIVE_MSG || "> ✅ ᗷOT Iᔕ OᑎᒪIᑎE ᗩᑎᗪ ᖇEᗩᗪY!"
         }, { quoted: mek });
     } catch (e) {
