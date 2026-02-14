@@ -6,7 +6,7 @@ cmd(
   {
     pattern: "song",
     react: "🎶",
-    desc: "Download YouTube Song",
+    desc: "> Download YouTube Song✓",
     category: "download",
     filename: __filename,
   },
