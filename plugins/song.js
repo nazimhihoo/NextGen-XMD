@@ -22,22 +22,22 @@ cmd(
       const search = await yts(q);
 
       if (!search.videos || search.videos.length === 0) {
-        return reply("> ❌ 𝗡𝗼 𝗿𝗲𝘀𝘂𝗹𝘁𝘀 𝗳𝗼𝘂𝗻𝗱 𝗼𝗻 𝗬𝗼𝘂𝗧𝘂𝗯𝗲!");
+        return reply("> `❌ 𝗡𝗼 𝗿𝗲𝘀𝘂𝗹𝘁𝘀 𝗳𝗼𝘂𝗻𝗱 𝗼𝗻 𝗬𝗼𝘂𝗧𝘂𝗯𝗲!`");
       }
 
       const data = search.videos[0];
       const url = data.url;
 
       const caption = `
-🎵 *SONG DOWNLOAD*
+🎵 *ᗪOᗯᑎᒪOᗩᗪIᑎG ᔕOᑎG !*
 ─────────────────────────
-🎬 *Title:* ${data.title}
-⏱️ *Duration:* ${data.timestamp}
-📅 *Uploaded:* ${data.ago}
+📽️ *Title:* ${data.`title`}
+⏰ *Duration:* ${data.`timestamp`}
+🪩 *Uploaded:* ${data.`ago`}
 👀 *Views:* ${data.views.toLocaleString()}
-🔗 *Watch:* ${data.url}
+🖇️ *Watch:* ${data.url}
 ─────────────────────────
-> ⬇️ ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ɪɴ 192ᴋʙᴘꜱ... ᴘʟᴇᴀꜱᴇ ᴡᴀɪᴛ...
+> ⬇️ *ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ɪɴ 192ᴋʙᴘꜱ...*  *ᴘʟᴇᴀꜱᴇ ᴡᴀɪᴛ...*
 `;
 
       await NazimX.sendMessage(
@@ -57,7 +57,7 @@ cmd(
 
       if (totalSeconds > 1800) {
         return reply(
-          "> ⏳ ꜱᴏʀʀʏ! ᴀᴜᴅɪᴏ ꜰɪʟᴇꜱ ʟᴏɴɢᴇʀ ᴛʜᴀɴ 30 ᴍɪɴᴜᴛᴇꜱ ᴀʀᴇ ɴᴏᴛ ꜱᴜᴘᴘᴏʀᴛᴇᴅ"
+          "> `⏳ ꜱᴏʀʀʏ! ᴀᴜᴅɪᴏ ꜰɪʟᴇꜱ ʟᴏɴɢᴇʀ ᴛʜᴀɴ 30 ᴍɪɴᴜᴛᴇꜱ ᴀʀᴇ ɴᴏᴛ ꜱᴜᴘᴘᴏʀᴛᴇᴅ`"
         );
       }
 
@@ -74,11 +74,11 @@ cmd(
         { quoted: mek }
       );
 
-      return reply("> ✅ Song download completed successfully❗");
+      return reply("> ✓𝚂𝚘𝚗𝚐 𝚍𝚘𝚠𝚗𝚕𝚘𝚊𝚍𝚎𝚍 | `© 𝙽𝚎𝚡𝚝𝙶𝚎𝚗-𝚇𝙼𝙳`🫴");
     } catch (e) {
       console.log("Song Error:", e);
       return reply(
-        "> ❌ 🇸🇴🇲🇪🇹🇭🇮🇳🇬 🇼🇪🇳🇹 🇼🇷🇴🇳🇬 🇼🇭🇮🇱🇪 🇩🇴🇼🇳🇱🇴🇦🇩🇮🇳🇬 🇹🇭🇪 🇸🇴🇳🇬❗"
+        "> ❌ ꜰᴀɪʟᴇᴅ ᴛᴏ ꜰᴇᴛᴄʜ ᴅᴏᴡɴʟᴏᴀᴅ ʟɪɴᴋ. ᴛʀʏ ᴀɴᴏᴛʜᴇʀ ꜱᴏɴɢ❗"
       );
     }
   }
